@@ -1,4 +1,5 @@
 import requests
+import pandas as pd
 
 endpoint = 'fixtures'
 
@@ -29,6 +30,21 @@ r['response'][0]['teams']
 r['response'][0]['goals']
 r['response'][0]['score']['fulltime']
 
+
+matches_records = [
+  {
+    'home_team': match['teams']['home']['name'],
+    'away_team': match['teams']['away']['name'],
+    'home_goals': match['goals']['home'],
+    'away_goals': match['goals']['away'],
+    'status': match['fixture']['status']['long']
+  }
+ for match in r['response']
+]
+
+matches_records[0]
+
+matches = pd.DataFrame.from_records(matches_records)
 
 endpoint = 'standings'
 
