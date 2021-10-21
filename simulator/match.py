@@ -51,12 +51,25 @@ def simulate_match_goals_n_times(home_goals_avg: str, away_goals_avg: str, simul
     return home_goals, away_goals
 
 
-def get_match_result():
-    # Get result based on simulated match goals
-    pass
+def get_match_points(home_goals: int, away_goals: int) -> Tuple[int]:
+    """Get points of the home and away team based on their goals.
+
+    Args:
+        home_goals (int): goals converted by home team
+        away_goals (int): goals converted by away team
+
+    Returns:
+        Tuple[int]: tuple with points of the home team and away team
+    """
+    if home_goals > away_goals:
+        return 3, 0
+    elif home_goals == away_goals:
+        return 1, 1
+    else:
+        return 0, 3
 
 def get_match_result_probabilities():
-    # Return probabilities of win, loss and draw
+    # TO DO: Return probabilities of win, loss and draw
     pass
 
 
@@ -84,4 +97,5 @@ goals_poisson_model = smf.glm(
 goals_poisson_model.summary()
 
 home_goals_avg, away_goals_avg = get_average_goals('Chile', 'Venezuela', goals_poisson_model)
-home_goals, away_goals_avg = simulate_match_goals_n_times(home_goals_avg, away_goals_avg, 100)
+home_goals, away_goals = simulate_match_goals_n_times(home_goals_avg, away_goals_avg, 100)
+match_points = [get_match_points(home_goals[i], away_goals[i]) for i in range(len(home_goals))]
